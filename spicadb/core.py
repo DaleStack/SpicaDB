@@ -37,4 +37,11 @@ class Collection:
         with open(self.filename, 'w') as file:
             json.dump(self.store, file, indent=2)
 
+    def insert(self, document: Dict[str, Any]) -> str:
+        """ Insert a document and return ID """
+        doc_id = str(uuid.uuid4())
+        self.store[doc_id] = document
+        self._save()
+        return doc_id
+
         
