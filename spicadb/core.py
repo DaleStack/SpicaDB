@@ -32,4 +32,9 @@ class Collection:
                 return json.load(file)
         return {}
 
+    def _save(self):
+        """ Save collection data to JSON file """
+        with open(self.filename, 'w') as file:
+            json.dump(self.store, file, indent=2)
+
         
