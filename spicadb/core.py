@@ -22,26 +22,24 @@ class SpicaDB:
 class Collection:
     def __init__(self, name: str, db_folder: str):
         self.name = name
-        self.filename = os.path.join(db_folder, f"{name}.json")
-        self.store = self._load_collection()
+        self.colletion_folder = os.path.join(db_folder, name)
 
-    def _load_collection(self) -> Dict[str, Any]:
-        """ Load collection data to json file """
-        if os.path.exists(self.filename):
-            with open(self.filename, 'r') as file:
-                return json.load(file)
-        return {}
+        if not os.path.exists(self.colletion_folder):
+            os.makedirs(self.colletion_folder)
 
-    def _save(self):
-        """ Save collection data to JSON file """
-        with open(self.filename, 'w') as file:
-            json.dump(self.store, file, indent=2)
+    def _get_document_path(self, doc_id: str) -> str:
+        """ Get file path for a document """
+        return os.path.join(self.colletion_folder, f"{doc_id}.json")
 
-    def insert(self, document: Dict[str, Any]) -> str:
-        """ Insert a document and return ID """
-        doc_id = str(uuid.uuid4())
-        self.store[doc_id] = document
-        self._save()
-        return doc_id
+    def _generate_id(self) -> str:
+        """ Generate unique document ID """
+        return str(uuid.uuid4())
 
-        
+    def _save_document(self, doc_id: str, document: Dict[str, Any]):
+        """ Save individual document to file """
+        file_path = self._get_document_path(doc_id)
+        with open(file_path, 'w') as file:
+            json.dump(document, file, indent=2)
+
+    
+
