@@ -1,1 +1,1 @@
-from .core import SpicaDB
+from .core import SpicaDB, Collection

@@ -55,4 +55,9 @@ class Collection:
         pattern = os.path.join(self.colletion_folder, "*.json")
         files = glob.glob(pattern)
         return [os.path.splitext(os.path.basename(f))[0] for f in files]
-
+    
+    def insert(self, document: Dict[str, Any]) -> str:
+        """ Insert a Document and return ID """
+        doc_id = self._generate_id()
+        self._save_document(doc_id, document)
+        return doc_id
