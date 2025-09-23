@@ -1,7 +1,7 @@
 import json
 import uuid
 import os
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 class SpicaDB:
     def __init__(self, db_folder='spicadb_data'):
@@ -41,5 +41,12 @@ class Collection:
         with open(file_path, 'w') as file:
             json.dump(document, file, indent=2)
 
+    def _load_document(self, doc_id: str) -> Optional[Dict[str, Any]]:
+        """ Load individual document from file """
+        file_path = self._get_document_path(doc_id)
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                return json.load(file)
+        return None
     
 
