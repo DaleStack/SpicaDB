@@ -1,7 +1,8 @@
 import json
 import uuid
 import os
-from typing import Dict, Any, Optional
+from typing import Dict, List, Any, Optional
+import glob
 
 class SpicaDB:
     def __init__(self, db_folder='spicadb_data'):
@@ -49,4 +50,9 @@ class Collection:
                 return json.load(file)
         return None
     
+    def _get_all_document_ids(self) -> List[str]:
+        """ Get all document IDs in collection """
+        pattern = os.path.join(self.colletion_folder, "*.json")
+        files = glob.glob(pattern)
+        return [os.path.splitext(os.path.basename(f))[0] for f in files]
 
